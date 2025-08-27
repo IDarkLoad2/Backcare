@@ -62,3 +62,12 @@ app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
   console.log(`🌍 Ambiente: ${process.env.NODE_ENV || 'development'}`);
 });
+
+
+// CORS totalmente aberto (use apenas para desenvolvimento/testes)
+app.use(cors({
+  origin: '*', // Permite qualquer origem
+  credentials: false, // Desabilita credentials quando origin é '*'
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: '*'
+}));
