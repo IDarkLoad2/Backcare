@@ -2,7 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-require('dotenv').config();
+
+// Configurar dotenv baseado no ambiente
+const path = require('path');
+if (process.env.NODE_ENV === 'production') {
+  require('dotenv').config({ path: path.join(__dirname, '.env.production') });
+} else {
+  require('dotenv').config();
+}
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -13,7 +20,13 @@ app.use(morgan('combined'));
 
 // CORS configurado para aceitar apenas o frontend
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: [
+    'http://localhost:3000',
+    'https://carecompany.com.br',
+    'https://www.carecompany.com.br',
+    'https://planos.carecompany.com.br',
+    'https://www.planos.carecompany.com.br'
+  ],
   credentials: true
 }));
 
