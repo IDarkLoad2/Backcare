@@ -6,7 +6,7 @@ const morgan = require('morgan');
 // Configurar dotenv baseado no ambiente
 const path = require('path');
 if (process.env.NODE_ENV === 'production') {
-  require('dotenv').config({ path: path.join(__dirname, '.env.production') });
+  require('dotenv').config({ path: path.join(__dirname, '.env') });
 } else {
   require('dotenv').config();
 }
@@ -20,10 +20,10 @@ app.use(morgan('combined'));
 
 // CORS configurado para permitir qualquer origem
 app.use(cors({
-  origin: true, // Permite qualquer origem
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  origin: '*', // Permite qualquer origem
+  credentials: false, // Desabilita credentials quando origin é '*'
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: '*'
 }));
 
 app.use(express.json({ limit: '10mb' }));
@@ -58,11 +58,3 @@ app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
   console.log(`🌍 Ambiente: ${process.env.NODE_ENV || 'development'}`);
 });
-
-// CORS totalmente aberto (use apenas para desenvolvimento/testes)
-app.use(cors({
-  origin: '*', // Permite qualquer origem
-  credentials: false, // Desabilita credentials quando origin é '*'
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: '*'
-}));
