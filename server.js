@@ -18,16 +18,12 @@ const PORT = process.env.PORT || 5000;
 app.use(helmet());
 app.use(morgan('combined'));
 
-// CORS configurado para aceitar apenas o frontend
+// CORS configurado para permitir qualquer origem
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://carecompany.com.br',
-    'https://www.carecompany.com.br',
-    'https://planos.carecompany.com.br',
-    'https://www.planos.carecompany.com.br'
-  ],
-  credentials: true
+  origin: true, // Permite qualquer origem
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 app.use(express.json({ limit: '10mb' }));
@@ -62,7 +58,6 @@ app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
   console.log(`🌍 Ambiente: ${process.env.NODE_ENV || 'development'}`);
 });
-
 
 // CORS totalmente aberto (use apenas para desenvolvimento/testes)
 app.use(cors({
